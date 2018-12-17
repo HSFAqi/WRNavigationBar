@@ -11,7 +11,31 @@
 #import <objc/runtime.h>
 #import "sys/utsname.h"
 
+//判断是否是ipad
+#define isPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+//判断iPhoneX
+#define IS_IPHONE_X ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) && !isPad : NO)
+//判断iPHoneXr
+#define IS_IPHONE_Xr ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(828, 1792), [[UIScreen mainScreen] currentMode].size) && !isPad : NO)
+//判断iPhoneXs
+#define IS_IPHONE_Xs ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) && !isPad : NO)
+//判断iPhoneXs Max
+#define IS_IPHONE_Xs_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size) && !isPad : NO)
+
 @implementation WRNavigationBar
+
+//+ (BOOL)isIphoneX {
+//    struct utsname systemInfo;
+//    uname(&systemInfo);
+//    NSString *platform = [NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding];
+//    if ([platform isEqualToString:@"i386"] || [platform isEqualToString:@"x86_64"]) {
+//        // judgment by height when in simulators
+//        return (CGSizeEqualToSize([UIScreen mainScreen].bounds.size, CGSizeMake(375, 812)) ||
+//                CGSizeEqualToSize([UIScreen mainScreen].bounds.size, CGSizeMake(812, 375)));
+//    }
+//    BOOL isIPhoneX = [platform isEqualToString:@"iPhone10,3"] || [platform isEqualToString:@"iPhone10,6"];
+//    return isIPhoneX;
+//}
 
 + (BOOL)isIphoneX {
     struct utsname systemInfo;
@@ -19,12 +43,38 @@
     NSString *platform = [NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding];
     if ([platform isEqualToString:@"i386"] || [platform isEqualToString:@"x86_64"]) {
         // judgment by height when in simulators
-        return (CGSizeEqualToSize([UIScreen mainScreen].bounds.size, CGSizeMake(375, 812)) ||
-                CGSizeEqualToSize([UIScreen mainScreen].bounds.size, CGSizeMake(812, 375)));
+        // return (CGSizeEqualToSize([UIScreen mainScreen].bounds.size, CGSizeMake(375, 812)) ||
+        // CGSizeEqualToSize([UIScreen mainScreen].bounds.size, CGSizeMake(812, 375)));
+        if(IS_IPHONE_X==YES){
+            return YES;
+        }else if (IS_IPHONE_Xr ==YES){
+            return YES;
+        }else if (IS_IPHONE_Xs ==YES){
+            return YES;
+        }else if (IS_IPHONE_Xs_Max ==YES){
+            return YES;
+        }else{
+            return NO;
+        }
     }
-    BOOL isIPhoneX = [platform isEqualToString:@"iPhone10,3"] || [platform isEqualToString:@"iPhone10,6"];
-    return isIPhoneX;
+    // BOOL isIPhoneX = [platform isEqualToString:@"iPhone10,3"] || [platform isEqualToString:@"iPhone10,6"];
+    // NSLog(@"isIPhoneX = %d",isIPhoneX);
+    // return isIPhoneX;
+    if(IS_IPHONE_X==YES){
+        return YES;
+    }else if (IS_IPHONE_Xr ==YES){
+        return YES;
+    }else if (IS_IPHONE_Xs ==YES){
+        return YES;
+    }else if (IS_IPHONE_Xs_Max ==YES){
+        return YES;
+    }else{
+        return NO;
+    }
 }
+
+
+
 + (CGFloat)navBarBottom {
     return [self isIphoneX] ? 88 : 64;
 }
